@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>ChatRoom</title>
+</head>
+<body>
+    <header class="header">
+        <p>Discord</p>
+    </header>
+    <main class="main-section">
+        <section class="sec-namespace">
+            <header class="namespace-header">
+                <h2>Namespaces</h2>
+            </header>
+            <ul class="namespace-list">
+                <li>NS1</li>
+                <li>NS2</li>
+            </ul>
+        </section>
+        <section class="sec-room">
+            <header class="room-header">
+                <h2>Rooms</h2>
+            </header>
+            <ul class="room-list">
+                <li>Room1</li>
+                <li>Room2</li>
+            </ul>
+        </section>
+        <section class="sec-chat-area">
+            <header class="chat-header">
+                <h2>Chat Area</h2>
+            </header>
+            <div class="chat-room">
+                <ul class="chat-list">
+                    <li class="message">
+                        <span class="user">User1:</span>
+                        <span class="text">Hello, how are you?</span>
+                    </li>
+                    <li class="message">
+                        <span class="user">User2:</span>
+                        <span class="text">I'm good, thanks!</span>
+                    </li>
+                    <!-- More messages here -->
+                </ul>
+                <div class="message-input">
+                    <textarea id="chat-textarea" class="custom-scrollbar" placeholder="Type your message..."></textarea>
+                    <button>Send</button>
+                </div>
+            </div>
+        </section>
+        <section class="sec-visitors">
+            <header class="visitors-header">
+                <h2>Visitors</h2>
+            </header>
+            <div class="visitors-list">
+                <ul>
+                    <li>V1</li>
+                    <li>V2</li>
+                    <!-- Add more visitors here -->
+                </ul>
+            </div>
+        </section>
+    </main>
+    <!-- socket.io.js is added by socketio server -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const textarea = document.getElementById('chat-textarea');
+
+        textarea.addEventListener('input', function () {
+            // Reset the textarea's height to auto
+            this.style.height = 'auto';
+
+            // Calculate the scroll height of the textarea
+            const scrollHeight = this.scrollHeight;
+
+            // Check if the scroll height exceeds a certain height (e.g., 100px) or a certain number of lines (e.g., 5 lines)
+            if (scrollHeight > 50 /* 100px */ || this.value.split('\n').length > 5) {
+                // If it exceeds, set a fixed height and allow scrolling
+                if(scrollHeight<250){
+                    this.style.height = `${scrollHeight}px`;
+                }
+                else{
+                    this.style.height = '250px';
+                    this.style.overflowY = 'scroll';
+                }
+            } else {
+                // If it doesn't exceed, let the height adjust according to content and hide scrolling
+                this.style.overflowY = 'hidden';
+            }
+        });
+        
+    </script>
+    <script src="./script.js"></script>
+</body>
+</html>
