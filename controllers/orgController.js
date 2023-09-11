@@ -1,4 +1,5 @@
 const Organization = require('../models/orgModel');
+const Room = require('../models/roomModel')
 const appError = require('../utils/appError')
 
 // Create a new organization
@@ -33,7 +34,12 @@ exports.getOrganizationById = async (req, res) => {
     if (!organization) {
       return res.status(404).json({ error: 'Organization not found' });
     }
-    res.status(200).json(organization);
+    // Find rooms associated with the organization
+    const rooms = await Room.find({ organization: organization._id }).select('_id name');
+    // Attach the rooms to the organization object
+    const newOrg = { organization };
+    newOrg.rooms = rooms
+    res.status(200).json({status:"Successful",organization:newOrg});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Unable to retrieve organization' });

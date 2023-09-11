@@ -4,7 +4,6 @@
 const AppError = require('../utils/appError');
 //-------------------------------------------------------------------------------------------
 const sendError = (err,req,res) => {
-    console.log('Been Here....')
   //Error handling for the API 
     res.status(err.statusCode).json({
       status: err.status,
@@ -13,13 +12,12 @@ const sendError = (err,req,res) => {
 };
 
 module.exports = (error, req, res, next) => {
-    console.log('Been Here..........')
   // console.log(err.stack);
   //Sometimes some internal node errors may not have a status code 
   error.statusCode = error.statusCode || 500;
   error.status = error.status || 'error';
 
-  sendError(err,req,res)
+  sendError(error,req,res)
 };
 
 //Seperating Error Outputs for Development and Production Enviornment
